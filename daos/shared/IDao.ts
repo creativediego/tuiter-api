@@ -8,5 +8,5 @@ export default interface IDao<T> {
   exists(resource: T): Promise<boolean>;
   create(type: T): Promise<T>;
   update(id: string, type: T): Promise<T>;
-  delete(tuidId: string): Promise<any>;
+  delete(id: string, secondaryId?: string): Promise<any>;
 }

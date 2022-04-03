@@ -12,6 +12,9 @@ import { StatusCode } from '../shared/HttpStatusCode';
 import { handleCentralError } from '../../errors/handleCentralError';
 dotenv.config();
 
+/**
+ * Implements a passport Google OAuth strategy.
+ */
 export default class PassportGoogleStrategy implements IPassportStrategy {
   public constructor() {}
   execute(path: string, router: Router, dao: IUserDao): void {

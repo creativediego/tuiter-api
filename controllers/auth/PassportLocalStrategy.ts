@@ -13,6 +13,9 @@ import { StatusCode } from '../shared/HttpStatusCode';
 
 dotenv.config();
 
+/**
+ * Implements a passport local login strategy to register and authenticate local users.
+ */
 export default class PassportLocalStrategy implements IPassportStrategy {
   private readonly hasher: IHasher;
   public constructor(hasher: IHasher) {

@@ -12,6 +12,9 @@ import { validateRegistration } from '../middleware/validateUser';
 import { validateResults } from '../middleware/validateResults';
 dotenv.config();
 
+/**
+ * Authentication controller that implements passport library and takes different {@link IPassPortStrategy} login strategies, such as local and Google OAuth.
+ */
 export default class PassportAuthController {
   private readonly dao: IDao<IUser>;
   private readonly path: string;
@@ -31,13 +34,6 @@ export default class PassportAuthController {
     router.get('/profile', this.getProfile);
     router.get('/login/failed', this.failLogin);
     router.post('/logout', this.logout);
-    // router.post(
-    //   '/login',
-    //   passport.authenticate('local', {
-    //     failureRedirect: `${this.path}/login/failed`,
-    //   }),
-    //   this.getProfile
-    // );
     router.post(
       '/register',
       validateRegistration,

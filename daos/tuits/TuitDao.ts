@@ -169,9 +169,12 @@ export default class TuitDao implements IDao<ITuit> {
    * @param {string} tuitId the id of the tuit.
    * @returns the deleted tuit
    */
-  delete = async (tuitId: string): Promise<number> => {
+  delete = async (tuitId: string, userId: string): Promise<number> => {
     try {
-      const tuitToDelete = await this.tuitModel.deleteOne({ _id: tuitId });
+      const tuitToDelete = await this.tuitModel.deleteOne({
+        _id: tuitId,
+        author: userId,
+      });
       return tuitToDelete.deletedCount;
     } catch (err) {
       throw this.errorHandler.handleError(
