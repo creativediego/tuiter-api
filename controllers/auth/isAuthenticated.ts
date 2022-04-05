@@ -8,6 +8,7 @@ export const isAuthenticated = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log('REQ USER', req.user);
   if (req.isAuthenticated()) {
     next();
   } else {
