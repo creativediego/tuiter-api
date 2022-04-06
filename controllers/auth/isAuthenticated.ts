@@ -10,7 +10,8 @@ export const isAuthenticated = (
 ) => {
   console.log('session', req.session);
   if (req.isAuthenticated()) {
-    console.log('Is authenticated');
+    console.log('headers', req.headers);
+    console.log('cookie', req.headers.cookie);
     next();
   } else {
     throw new UnauthorizedException('Not authenticated.');
