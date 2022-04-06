@@ -19,11 +19,8 @@ const createGlobalMiddleware = (app: Express) => {
   app.use(
     cookieSession({
       name: 'session',
-      keys: ['test'],
-      secret: 'test',
+      keys: ['test', 'test2'],
       maxAge: 24 * 60 * 60 * 100,
-      sameSite: false,
-      secure: false,
     })
   );
 

@@ -19,7 +19,8 @@ app.use(handleCentralError);
 handleUncaughtException();
 
 if (process.env.NODE_ENV! === 'PRODUCTION') {
-  app.enable('trust proxy'); // trust first proxy
+  app.set('trust proxy', 'loopback, linklocal, uniquelocal, 1'); // trust first proxy
+  app.enable('trust proxy');
 }
 
 app.listen(process.env.PORT! || 4000, () => {
