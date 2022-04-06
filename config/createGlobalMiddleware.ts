@@ -22,10 +22,7 @@ const createGlobalMiddleware = (app: Express) => {
       secure: process.env.NODE_ENV === 'PRODUCTION',
     })
   );
-  app.use((req: any, res, next) => {
-    req['sessionCookies'].secure = true;
-    next();
-  });
+
   app.use(passport.initialize());
   app.use(passport.session());
 };
