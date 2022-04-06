@@ -13,13 +13,14 @@ dotenv.config();
 const app = express();
 
 configDatabase(process.env.MONGO_URL!);
-if (process.env.NODE_ENV! === 'PRODUCTION') {
-  app.set('trust proxy', 1); // trust first proxy
-}
 configGlobalMiddleware(app);
 createControllers(app);
 app.use(handleCentralError);
 handleUncaughtException();
+
+if (process.env.NODE_ENV! === 'PRODUCTION') {
+  app.set('trust proxy', 1); // trust first proxy
+}
 
 app.listen(process.env.PORT! || 4000, () => {
   console.log(`Up and running on port ${process.env.PORT! || 4000}`);

@@ -60,8 +60,7 @@ export default class PassportLocalStrategy implements IPassportStrategy {
           return next(err);
         }
         if (user) {
-          req.logIn({ id: user.id }, (err) => {
-            console.log('REQ USER FROM login', req.user);
+          req.logIn(user, (err) => {
             if (err) {
               return next(new AuthException('Failed to log into session.'));
             }

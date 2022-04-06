@@ -18,8 +18,8 @@ const createGlobalMiddleware = (app: Express) => {
       name: 'session',
       keys: [process.env.SESSION_KEYS!],
       maxAge: 24 * 60 * 60 * 100,
-      sameSite: process.env.NODE_ENV === 'PRODUCTION' ? 'none' : 'lax',
-      secure: process.env.NODE_ENV === 'PRODUCTION',
+      sameSite: false,
+      secure: false,
     })
   );
 
