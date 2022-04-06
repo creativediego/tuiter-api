@@ -9,9 +9,9 @@ export const isAuthenticated = (
   next: NextFunction
 ) => {
   console.log('session', req.session);
+  console.log('headers', req.headers);
+  console.log('cookie', req.headers.cookie);
   if (req.isAuthenticated()) {
-    console.log('headers', req.headers);
-    console.log('cookie', req.headers.cookie);
     next();
   } else {
     throw new UnauthorizedException('Not authenticated.');
