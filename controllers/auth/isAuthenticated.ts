@@ -10,6 +10,7 @@ export const isAuthenticated = (
 ) => {
   if (req.isAuthenticated()) {
     console.log('Is authenticated');
+    console.log('protocol', req.protocol);
     next();
   } else {
     throw new UnauthorizedException('Not authenticated.');
