@@ -10,6 +10,7 @@ import UnauthorizedException from './UnauthorizedException';
 import { validateLogin } from '../middleware/validateUser';
 import AuthException from './AuthException';
 import { StatusCode } from '../shared/HttpStatusCode';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -54,17 +55,27 @@ export default class PassportLocalStrategy implements IPassportStrategy {
     );
 
     router.post('/login', (req: Request, res: Response, next: NextFunction) =>
-      passport.authenticate('local', (err, user) => {
+      passport.authenticate('local', { session: false }, (err, user) => {
         if (err) {
           return next(err);
         }
         if (user) {
-          req.logIn(user, (err) => {
-            if (err) {
-              return next(new AuthException('Failed to log into session!'));
-            }
-            res.status(StatusCode.ok).json(user);
-          });
+          // req.logIn(user, (err) => {
+          //   if (err) {
+          //     return next(new AuthException('Failed to log into session!'));
+          //   }
+          //   res.status(StatusCode.ok).json(user);
+          // });
+
+          const token = jwt.sign(
+            {
+              expiresIn: '12h',
+              user: req.user,
+            },
+            'test'
+          );
+          res.cookie('x-auth-cookie', token);
+          res.redirect(process.env.CLIENT_URL!);
         }
       })(req, res, next)
     );

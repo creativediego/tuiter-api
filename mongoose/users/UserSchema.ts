@@ -3,6 +3,7 @@ import IUser from '../../models/users/IUser';
 import { AccountType } from '../../models/users/AccoutType';
 import { AccountStatus } from '../../models/users/AccountStatus';
 import { formatJSON } from '../util/formatJSON';
+import jwt from 'jsonwebtoken';
 
 /**
  * Mongoose database schema for the user resource, based on an {@link IUser} interface.
@@ -49,6 +50,19 @@ const UserSchema = new mongoose.Schema<IUser>(
 
   { timestamps: true, collection: 'users' }
 );
+
+UserSchema.methods.generateJWT = function () {
+  const token = jwt.sign(
+    {
+      expiresIn: '12h',
+      id: this._id,
+      provider: this.provider,
+      email: this.email,
+    },
+    'test'
+  );
+  return token;
+};
 
 formatJSON(UserSchema);
 export default UserSchema;

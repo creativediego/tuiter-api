@@ -10,6 +10,7 @@ import { IUserDao } from '../../daos/users/IUserDao';
 import AuthException from './AuthException';
 import { StatusCode } from '../shared/HttpStatusCode';
 import { handleCentralError } from '../../errors/handleCentralError';
+import jwt from 'jsonwebtoken';
 dotenv.config();
 
 /**
@@ -24,6 +25,7 @@ export default class PassportGoogleStrategy implements IPassportStrategy {
           clientID: process.env.GOOGLE_CLIENT_ID!,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
           callbackURL: `${path}/google/callback`,
+          proxy: true,
         },
         async function (
           accessToken: any,
@@ -32,7 +34,6 @@ export default class PassportGoogleStrategy implements IPassportStrategy {
           done: Function
         ) {
           try {
-            // console.log(profile);
             const user: IUser = {
               name: profile.displayName,
               password: undefined!,
@@ -56,82 +57,25 @@ export default class PassportGoogleStrategy implements IPassportStrategy {
       '/google',
       passport.authenticate('google', { scope: ['profile', 'email'] })
     );
-    // router.get(
-    //   '/google/callback',
-    //   passport.authenticate('google', {
-    //     successReturnToOrRedirect: process.env.CLIENT_URL!,
-    //     failureRedirect: `${path}/login/failed`,
-    //   })
-    // );
-
-    // router.get(
-    //   '/google/callback',
-    //   (
-    //     req: Request,
-    //     res: Response,
-    //     next: NextFunction // Wrap authenticate call to handle errors.
-    //   ) =>
-    //     passport.authenticate(
-    //       'google',
-    //       // {
-    //       //   successReturnToOrRedirect: process.env.CLIENT_URL!,
-    //       //   failureRedirect: `${path}/login/failed`,
-    //       // },
-    //       (err, user) => {
-    //         if (err) {
-    //           return next(new AuthException('Google login failed', err));
-    //         }
-
-    //         //No user found?
-    //         if (!user) {
-    //           return next(new AuthException('Google user not found.'));
-    //         }
-
-    //         //User pending approval?
-    //         if (user.isPending) {
-    //           return next(new AuthException('Google user pending approval'));
-    //         }
-
-    //         //User archived?
-    //         if (user.isArchived) {
-    //           return next(new AuthException('Google user archived'));
-    //         }
-
-    //         //Set user in request
-    //         req.logIn(user, (error) => {
-    //           console.log('error?', error);
-    //           if (error) {
-    //             return next(
-    //               new AuthException(
-    //                 'Failed to log user in after Google authentication'
-    //               )
-    //             );
-    //           }
-    //           console.log(req.user);
-    //           return res.redirect(`${process.env.CLIENT_URL!}`);
-    //           // next();
-    //         });
-    //         // req.user = user;
-    //         // console.log(user);
-    //         // next();
-    //       }
-    //     )(req, res, next)
-    // );
 
     router.get(
       '/google/callback',
       passport.authenticate('google', {
-        successReturnToOrRedirect: process.env.CLIENT_URL!,
         failureRedirect: `${process.env.CLIENT_URL!}/error`,
-      })
+        session: false,
+      }),
+      (req, res) => {
+        console.log('google auth', req.user);
+        const token = jwt.sign(
+          {
+            expiresIn: '12h',
+            user: req.user,
+          },
+          'test'
+        );
+        res.cookie('x-auth-cookie', token);
+        res.redirect(process.env.CLIENT_URL!);
+      }
     );
-
-    // router.get(
-    //   '/google/callback',
-    //   passport.authenticate('google', {
-    //     successReturnToOrRedirect: process.env.CLIENT_URL!,
-    //     failureRedirect: `${process.env.CLIENT_URL!}/error`,
-    //   })
-    // );
   }
 }
