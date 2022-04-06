@@ -22,6 +22,7 @@ const createGlobalMiddleware = (app: Express) => {
       secure: process.env.NODE_ENV === 'PRODUCTION',
       httpOnly: false,
       overwrite: true,
+      domain: process.env.CLIENT_URL!,
     })
   );
 
