@@ -30,12 +30,13 @@ const createGlobalMiddleware = (app: Express) => {
     session({
       name: 'session',
       secret: process.env.SESSION_KEYS!,
-      saveUninitialized: true,
-      resave: true,
+      saveUninitialized: false,
+      resave: false,
       proxy: true,
       cookie: {
         sameSite: process.env.NODE_ENV === 'PRODUCTION' ? 'none' : 'lax',
         secure: process.env.NODE_ENV === 'PRODUCTION',
+        maxAge: 24 * 60 * 60 * 100,
       },
     })
   );
