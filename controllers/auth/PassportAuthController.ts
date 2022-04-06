@@ -86,10 +86,12 @@ export default class PassportAuthController {
   };
 
   logout(req: Request, res: Response): void {
-    console.log('logout called');
     req.logout();
     req.user = undefined;
     req.session = null!;
+    console.log('logout called');
+    console.log('user', req.user);
+    console.log('session', req.session);
     // req.sessionOptions.maxAge = 0;
     res.sendStatus(StatusCode.ok);
   }
