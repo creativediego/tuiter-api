@@ -20,7 +20,6 @@ handleUncaughtException();
 
 if (process.env.NODE_ENV! === 'PRODUCTION') {
   app.set('trust proxy', 1); // trust first proxy
-  app.enable('trust proxy');
 }
 
 app.listen(process.env.PORT! || 4000, () => {
