@@ -14,7 +14,7 @@ const app = express();
 
 configDatabase(process.env.MONGO_URL!);
 if (process.env.NODE_ENV! === 'PRODUCTION') {
-  app.set('trust proxy', 1); // trust first proxy
+  app.set('trust proxy', true); // trust first proxy
 }
 
 app.enable('trust proxy');
