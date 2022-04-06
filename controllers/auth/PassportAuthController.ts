@@ -86,6 +86,7 @@ export default class PassportAuthController {
   };
 
   logout(req: Request, res: Response): void {
+    console.log('logout called');
     req.logout();
     res.sendStatus(StatusCode.ok);
   }
