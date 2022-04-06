@@ -2,8 +2,7 @@ import express, { Express } from 'express';
 import passport from 'passport';
 import cookieSession from 'cookie-session';
 import cors from 'cors';
-// import cookieParser from 'cookie-parser';
-import cookieParser from 'cookie-parser';
+import session from 'express-session';
 
 const createGlobalMiddleware = (app: Express) => {
   app.use(express.json());
@@ -15,12 +14,15 @@ const createGlobalMiddleware = (app: Express) => {
       preflightContinue: true,
     })
   );
-  app.use(cookieParser('test'));
   app.use(
-    cookieSession({
-      name: 'session',
-      keys: ['test', 'test2'],
-      maxAge: 24 * 60 * 60 * 100,
+    session({
+      secret: 'test',
+      saveUninitialized: true,
+      resave: true,
+      cookie: {
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      },
     })
   );
 
