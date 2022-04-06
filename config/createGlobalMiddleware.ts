@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import passport from 'passport';
 import cookieSession from 'cookie-session';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const createGlobalMiddleware = (app: Express) => {
   app.use(express.json());
@@ -13,10 +14,12 @@ const createGlobalMiddleware = (app: Express) => {
       preflightContinue: true,
     })
   );
+  app.use(cookieParser('test'));
   app.use(
     cookieSession({
       name: 'session',
-      keys: [process.env.SESSION_KEYS!],
+      keys: ['test'],
+      secret: 'test',
       maxAge: 24 * 60 * 60 * 100,
       sameSite: false,
       secure: false,
