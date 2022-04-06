@@ -20,6 +20,8 @@ const createGlobalMiddleware = (app: Express) => {
       maxAge: 24 * 60 * 60 * 100,
       sameSite: process.env.NODE_ENV === 'PRODUCTION' ? 'none' : 'lax',
       secure: process.env.NODE_ENV === 'PRODUCTION',
+      httpOnly: false,
+      overwrite: true,
     })
   );
 
