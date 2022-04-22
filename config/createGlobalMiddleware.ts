@@ -22,7 +22,7 @@ const createGlobalMiddleware = (app: Express) => {
       sameSite: process.env.NODE_ENV === 'PRODUCTION' ? false : 'lax',
       secure: process.env.NODE_ENV === 'PRODUCTION',
       httpOnly: true,
-      domain: process.env.CLIENT_URL!,
+      domain: process.env.API_URL!,
     })
   );
 
