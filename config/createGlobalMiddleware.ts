@@ -26,21 +26,6 @@ const createGlobalMiddleware = (app: Express) => {
     })
   );
 
-  // app.use(
-  //   session({
-  //     name: 'session',
-  //     secret: process.env.SESSION_KEYS!,
-  //     saveUninitialized: false,
-  //     resave: false,
-  //     proxy: true,
-  //     cookie: {
-  //       sameSite: process.env.NODE_ENV === 'PRODUCTION' ? false : 'lax',
-  //       secure: process.env.NODE_ENV === 'PRODUCTION',
-  //       maxAge: 24 * 60 * 60 * 100,
-  //     },
-  //   })
-  // );
-
   app.use(passport.initialize());
   app.use(passport.session());
 };
